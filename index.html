@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gordon College (Maintenance)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fa-solid fa-brain brain-icon"></i>
+                    <i class="fa-regular fa-lightbulb bulb-icon"></i>
+                </div>
+            </div>
+            <h2>GORDON COLLEGE MAINTENANCE</h2>
+        </div>
+
+        <ul class="nav-links">
+            <!-- Sidebar Navigation with IDs -->
+            <li><a href="#" class="nav-item active" id="nav-pipeline" onclick="switchTab('pipeline')"><i class="fa-regular fa-clipboard"></i> Todolist</a></li>
+            <li><a href="#" class="nav-item" id="nav-documents" onclick="switchTab('documents')"><i class="fa-regular fa-folder"></i> Documents</a></li>
+            <li><a href="#" class="nav-item" id="nav-announcement" onclick="switchTab('announcement')"><i class="fa-solid fa-bullhorn"></i> Stock Updates</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="#" class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+            <div class="user-profile">
+                <span class="user-name">Facilities Portal</span>
+            </div>
+        </header>
+
+        <section class="content-body">
+            
+            <!-- 1. ACTIVE PIPELINE SECTION -->
+            <div id="pipelineSection">
+                <div class="page-title-area">
+                    <h1>Campus Maintenance Desk</h1>
+                    <p>Report issues regarding school facilities instantly for quick resolution.</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card issue-card">
+                        <div class="card-icon error"><i class="fa-solid fa-faucet-drip"></i></div>
+                        <div class="card-info">
+                            <h3>Broken Sink Status</h3>
+                            <p class="status pending">● 3 Reported Issues</p>
+                            <span class="location-tag">1st floor & 2nd floor Toilets</span>
+                        </div>
+                    </div>
+
+                    <div class="card issue-card">
+                        <div class="card-icon warning"><i class="fa-solid fa-wind"></i></div>
+                        <div class="card-info">
+                            <h3>Odors & Ventilation</h3>
+                            <p class="status progress">● Under Inspection</p>
+                            <span class="location-tag">Main Comm Toilet</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card issue-card">
+                        <div class="card-icon info"><i class="fa-solid fa-shirt"></i></div>
+                        <div class="card-info">
+                            <h3>Uniform & Clothes</h3>
+                            <p class="status pending">● Stock Update</p>
+                            <span class="location-tag">School Store</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h2><i class="fa-solid fa-triangle-exclamation"></i> File a Facility Report</h2>
+                    <form id="reportForm">
+                        <div class="form-group">
+                            <label for="issueType">Select Issue Category</label>
+                            <select id="issueType" required>
+                                <option value="" disabled selected>Choose the category...</option>
+                                <option value="sink">Broken/Leaking Sink</option>
+                                <option value="odor">Bad Odor</option>
+                                <option value="uniform">Uniform & Clothes</option>
+                                <option value="other">Other Facility Damage</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location / Room Number</label>
+                            <input type="text" id="location" placeholder="e.g., 2nd Floor,Restroom" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Detailed Description</label>
+                            <textarea id="description" rows="4" placeholder="Describe the specific problem..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Submit Action Ticket</button>
+                    </form>
+                </div>
+
+                <div class="tickets-container">
+                    <h2>Live Resolution Pipeline</h2>
+                    <div class="table-responsive">
+                        <table class="tickets-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Issue Type</th>
+                                    <th>Location</th>
+                                    <th>Action Strategy/Solution</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ticketLog">
+                                <tr>
+                                    <td>#GC-1042</td>
+                                    <td><strong>Broken Sink</strong></td>
+                                    <td>Bldg A Ground Flr Men's CR</td>
+                                    <td>Plumber dispatched to replace basic gaskets.</td>
+                                    <td><span class="badge badge-success">Resolved</span></td>
+                                    <td><button class="action-btn" disabled>Done</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#GC-1050</td>
+                                    <td><strong>Uniform & Clothes</strong></td>
+                                    <td>School Store</td>
+                                    <td>New stock of PE uniforms arrived. Distribution in progress.</td>
+                                    <td><span class="badge badge-warning">In Progress</span></td>
+                                    <td><button class="action-btn resolve-btn" onclick="resolveTicket(this)">Resolve</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. DOCUMENTS / ARCHIVE SECTION -->
+            <div id="documentsSection" style="display: none;">
+                <div class="page-title-area">
+                    <h1>Resolved Documents</h1>
+                    <p>Archive of completed maintenance tickets and solutions.</p>
+                </div>
+
+                <div class="tickets-container">
+                    <h2>Maintenance History Log</h2>
+                    <div class="table-responsive">
+                        <table class="tickets-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Issue Type</th>
+                                    <th>Location</th>
+                                    <th>Resolution Report</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="documentsLog">
+                                <!-- Resolved tickets will appear here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. ANNOUNCEMENT SECTION -->
+            <div id="announcementSection" style="display: none;">
+                <div class="page-title-area">
+                    <h1>Maintenance Announcements</h1>
+                    <p>Public broadcast of resolved facility issues and uniform stock updates.</p>
+                </div>
+
+                <div class="tickets-container">
+                    <h2>Broadcast Log</h2>
+                    <div class="table-responsive">
+                        <table class="tickets-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Issue Type</th>
+                                    <th>Location</th>
+                                    <th>Announced Solution</th>
+                                    <th>Date Posted</th>
+                                </tr>
+                            </thead>
+                            <tbody id="announcementLog">
+                                <!-- Uniform & Clothes Stock Announcements -->
+                                <tr>
+                                    <td>#GC-1035</td>
+                                    <td><strong>Uniform & Clothes</strong></td>
+                                    <td>School Store</td>
+                                    <td>New PE uniforms (Size M, L, XL) are now available. Limited stock for size S.</td>
+                                    <td>06/02/2026</td>
+                                </tr>
+                                <tr>
+                                    <td>#GC-1028</td>
+                                    <td><strong>Uniform & Clothes</strong></td>
+                                    <td>School Store</td>
+                                    <td>School Girls uniform restocked. Size available Small,Large,XL.</td>
+                                    <td>06/02/2026</td>
+                                </tr>
+                                <tr>
+                                    <td>#GC-1015</td>
+                                    <td><strong>Uniform & Clothes</strong></td>
+                                    <td>School Store</td>
+                                    <td>Sports shorts and tracksuits now available.</td>
+                                    <td>06/02/2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reportForm = document.getElementById("reportForm");
+            const ticketLog = document.getElementById("ticketLog");
+            const menuToggle = document.getElementById("menuToggle");
+            const sidebar = document.getElementById("sidebar");
+
+            // --- Sidebar Toggle Logic ---
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener("click", () => {
+                    sidebar.classList.toggle("open");
+                });
+            }
+
+            document.addEventListener("click", (e) => {
+                if (window.innerWidth <= 992) {
+                    if (sidebar && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                        sidebar.classList.remove("open");
+                    }
+                }
+            });
+
+            // --- Form Submit Logic (Create New Ticket) ---
+            if (reportForm && ticketLog) {
+                reportForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+
+                    const issueType = document.getElementById("issueType").value;
+                    const location = document.getElementById("location").value;
+
+                    let actionStrategy = "";
+                    let structuredIssueName = "";
+
+                    if (issueType === "sink") {
+                        structuredIssueName = "Broken Sink";
+                        actionStrategy = "Emergency plumbing ticket routed.";
+                    } else if (issueType === "odor") {
+                        structuredIssueName = "Foul Restroom Odor";
+                        actionStrategy = "Routing environmental services.";
+                    } else if (issueType === "uniform") {
+                        structuredIssueName = "Uniform & Clothes";
+                        actionStrategy = "Uniform stock check & distribution initiated.";
+                    } else {
+                        structuredIssueName = "General Repair";
+                        actionStrategy = "Facility inspector assigned.";
+                    }
+
+                    const ticketId = `#GC-${Math.floor(1000 + Math.random() * 9000)}`;
+
+                    const newRow = document.createElement("tr");
+                    newRow.innerHTML = `
+                        <td>${ticketId}</td>
+                        <td><strong>${structuredIssueName}</strong></td>
+                        <td>${escapeHtml(location)}</td>
+                        <td>${actionStrategy}</td>
+                        <td><span class="badge badge-warning">In Progress</span></td>
+                        <td><button class="action-btn resolve-btn" onclick="resolveTicket(this)">Resolve</button></td>
+                    `;
+
+                    ticketLog.insertBefore(newRow, ticketLog.firstChild);
+                    reportForm.reset();
+                    alert(`Success! Ticket ${ticketId} generated.`);
+                });
+            }
+
+            function escapeHtml(str) {
+                return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+        });
+
+        // --- Tab Switching Logic ---
+        function switchTab(tabName) {
+            // Hide all sections
+            document.getElementById('pipelineSection').style.display = 'none';
+            document.getElementById('documentsSection').style.display = 'none';
+            document.getElementById('announcementSection').style.display = 'none';
+            
+            // Remove active class from all navs
+            document.getElementById('nav-pipeline').classList.remove('active');
+            document.getElementById('nav-documents').classList.remove('active');
+            document.getElementById('nav-announcement').classList.remove('active');
+
+            // Show target section and activate nav
+            if(tabName === 'pipeline') {
+                document.getElementById('pipelineSection').style.display = 'block';
+                document.getElementById('nav-pipeline').classList.add('active');
+            } else if(tabName === 'documents') {
+                document.getElementById('documentsSection').style.display = 'block';
+                document.getElementById('nav-documents').classList.add('active');
+            } else if(tabName === 'announcement') {
+                document.getElementById('announcementSection').style.display = 'block';
+                document.getElementById('nav-announcement').classList.add('active');
+            }
+        }
+
+        // --- Resolve Ticket Logic (Moves to Documents) ---
+        function resolveTicket(btn) {
+            const row = btn.closest('tr');
+            const ticketId = row.cells[0].innerText;
+            const issueType = row.cells[1].innerText;
+            const location = row.cells[2].innerText;
+            const solution = row.cells[3].innerText;
+
+            // Create new row for Documents Log with Publish Button
+            const newDocRow = document.createElement('tr');
+            newDocRow.innerHTML = `
+                <td>${ticketId}</td>
+                <td><strong>${issueType}</strong></td>
+                <td>${location}</td>
+                <td>${solution}</td>
+                <td><span class="badge badge-success">Archived</span></td>
+                <td><button class="action-btn publish-btn" onclick="publishTicket(this)">Publish</button></td>
+            `;
+
+            const docsLog = document.getElementById('documentsLog');
+            docsLog.insertBefore(newDocRow, docsLog.firstChild);
+
+            // Remove from Pipeline
+            row.remove();
+
+            alert(`Ticket ${ticketId} has been resolved.`);
+        }
+
+        // --- Publish Ticket Logic (Moves to Announcement) ---
+        function publishTicket(btn) {
+            const row = btn.closest('tr');
+            const ticketId = row.cells[0].innerText;
+            const issueType = row.cells[1].innerText;
+            const location = row.cells[2].innerText;
+            const solution = row.cells[3].innerText;
+
+            // Get current date
+            const date = new Date().toLocaleDateString();
+
+            // Create new row for Announcement Log
+            const newAnnounceRow = document.createElement('tr');
+            newAnnounceRow.innerHTML = `
+                <td>${ticketId}</td>
+                <td><strong>${issueType}</strong></td>
+                <td>${location}</td>
+                <td>${solution}</td>
+                <td>${date}</td>
+            `;
+
+            const announceLog = document.getElementById('announcementLog');
+            announceLog.insertBefore(newAnnounceRow, announceLog.firstChild);
+
+            // Update button to indicate published
+            row.cells[5].innerHTML = '<span class="badge badge-success">Published</span>';
+
+            alert(`Ticket ${ticketId} has been announced to the public.`);
+        }
+
+        // --- Logout Function ---
+        function logout() {
+            const confirmLogout = confirm("Are you sure you want to logout?");
+            if (confirmLogout) {
+                // Here you would typically clear session data or redirect to login page
+                alert("You have been logged out successfully!");
+                // Optional: Redirect to logout or login page
+                // window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+</html>
